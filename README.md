@@ -32,4 +32,4 @@ for building APIs and microservices.
 ## Author ✒️
 Victor Hugo Polo Polo - [Rhaedev](https://github.com/rhaedev)
 ## License 📄
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/rhaedev/Prueba_Allfound/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/rhaedev/Prueba_Allfound/blob/master/LICENSE) file for details

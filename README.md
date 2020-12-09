@@ -27,7 +27,7 @@ docker-compose up --build -d
 * [MongoDB](https://www.mongodb.com/es) - NoSQL Database
 * [Loopback](https://loopback.io/) - A highly extensible Node.js and TypeScript framework
 for building APIs and microservices.
-* [Angular](https://angular.io/) - Usado para generar RSS
+* [Angular](https://angular.io/) - Typescript front-end framework.
 
 ## Author ✒️
 Victor Hugo Polo Polo - [Rhaedev](https://github.com/rhaedev)

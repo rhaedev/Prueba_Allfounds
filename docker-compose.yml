@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+    api:
+        container_name: api
+        depends_on: 
+          - mongo
+        build:
+          context: ./api
+          dockerfile: Dockerfile
+        restart: always
+        ports:
+          - "3000:3000"
+        environment:
+          networks:
+          api-network:
+        volumes:
+          - .:/api
+    mongo:
+        container_name: mongodb
+        image: mongo:latest
+        restart: always    
+        volumes:
+          - mongodb_data_container:/data/db
+        ports:
+          - 27019:27017
+    angular:
+        container_name: webapp
+        depends_on: 
+          - api
+        build: 
+            context: ./webapp
+            dockerfile: Dockerfile    
+        restart: always
+        ports:
+            - '4200:80'
+volumes:
+    mongodb_data_container:
+    
+networks:
+    prueba-allfounds-network:
+        external: true

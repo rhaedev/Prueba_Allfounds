@@ -22,7 +22,6 @@ export class ContentComponent implements OnInit {
   news: New[] = [];
   title: string = '';
   public path: any = '';
-  private pageSizeOptions: number[] = [5, 10, 25, 100];
   public searchForm: FormGroup;
   public dataSource: any;
   public displayedColumns = [
@@ -58,15 +57,20 @@ export class ContentComponent implements OnInit {
 
   listNews(){
     let filter;
-    console.log('listNews');
-    if (this.path === 'news') {
-      this.title = 'NOTICIAS';
-      filter = { where: { archivedDate: { eq: null } } };
-    } else if (this.path === 'archived') {
-      this.title = 'ARCHIVADAS';
-      filter = { where: { archivedDate: { neq: null } } };
-    }
 
+    switch (this.path) {
+      case 'news':
+        this.title = 'NOTICIAS';
+        filter = { where: { archivedDate: { eq: null } } };
+        break;
+      case 'archived':
+        this.title = 'ARCHIVADAS';
+        filter = { where: { archivedDate: { neq: null } } };
+        break;
+      default:
+        break;
+    }
+    
     this.newService.find(filter).subscribe(response => {
       this.dataSource = new MatTableDataSource(response);
       this.dataSource.sort = this.sort;
@@ -78,6 +82,8 @@ export class ContentComponent implements OnInit {
   getFilterPredicate() {
     return (row: New, filters: string) => {
 
+      console.log('filters',filters);
+
       const filterArray = filters.split('$');
       const newDate = filterArray[0];
       const newAuthor = filterArray[1];
@@ -85,18 +91,18 @@ export class ContentComponent implements OnInit {
 
       const matchFilter = [];
 
-      const columnTitle = row.title;
-      const columnAuthor = row.author;
       const columnDate = new Date(row.date);
+      const columnAuthor = row.author;
+      const columnTitle = row.title;
 
       
       const customFilterNewDate = columnDate.toDateString().toLowerCase() >= newDate;
-      const customFilterNewAuthor = columnAuthor.toLowerCase().includes(newAuthor);
       const customFilterNewTitle = columnTitle.toLowerCase().includes(newTitle);
+      const customFilterNewAuthor = columnAuthor.toLowerCase().includes(newAuthor);
 
+      matchFilter.push(customFilterNewDate);
       matchFilter.push(customFilterNewTitle);
       matchFilter.push(customFilterNewAuthor);
-      matchFilter.push(customFilterNewDate);
 
       return matchFilter.every(Boolean);
     };
@@ -111,7 +117,7 @@ export class ContentComponent implements OnInit {
     this.newTitle = title === null ? '' : title;
     this.newAuthor = author === null ? '' : author;
 
-    const filterValue = this.newDate + '$' + this.newTitle + '$' + this.newAuthor;
+    const filterValue = this.newDate + '$' + this.newAuthor + '$' + this.newTitle;
 
     console.log('filterValue', filterValue);
 
@@ -124,7 +130,7 @@ export class ContentComponent implements OnInit {
   }
 
   achiveNewModal(newNew: New) {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       data: {
         message: `¿Estas seguro de archivar la noticia de ${newNew.author}?`,
         buttonText: {
@@ -151,7 +157,7 @@ export class ContentComponent implements OnInit {
   }
 
   deleteNewModal(id: string) {
-    const dialogRef = this.dialog.open(DialogComponent, {
+    this.dialog.open(DialogComponent, {
       data: {
         message: '¿Esta seguro de borrar esta Noticia?',
         buttonText: {

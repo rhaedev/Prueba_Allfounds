@@ -82,8 +82,6 @@ export class ContentComponent implements OnInit {
   getFilterPredicate() {
     return (row: New, filters: string) => {
 
-      console.log('filters',filters);
-
       const filterArray = filters.split('$');
       const newDate = filterArray[0];
       const newAuthor = filterArray[1];
@@ -118,8 +116,6 @@ export class ContentComponent implements OnInit {
     this.newAuthor = author === null ? '' : author;
 
     const filterValue = this.newDate + '$' + this.newAuthor + '$' + this.newTitle;
-
-    console.log('filterValue', filterValue);
 
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }

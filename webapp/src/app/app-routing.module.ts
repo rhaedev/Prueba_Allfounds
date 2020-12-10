@@ -5,7 +5,8 @@ import { ContentComponent } from './pages/content/content.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'news'},  
   { path: 'news', component: ContentComponent},  
-  { path: 'archived', component: ContentComponent}
+  { path: 'archived', component: ContentComponent},
+  { path: '**', pathMatch: 'full', redirectTo: 'news'}, 
 ];
 
 @NgModule({
